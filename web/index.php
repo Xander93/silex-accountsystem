@@ -1,27 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use Silex\Application;
 
-$app = new Silex\Application;
+$app = require_once __DIR__.'/../app/app.php';
 
-$app['debug'] = true;
-
-$app->register(new Silex\Provider\TwigServiceProvider, [
-    'twig.path' => __DIR__ . '/../views'
-]);
-
-$app->register(new Silex\Provider\DoctrineServiceProvider(), [
-        'db.options' => [
-        'driver' => 'pdo_mysql',
-        'host' => 'localhost',
-        'dbname' => 'accounts',
-        'user' => 'xander',
-        'password' => 'Welkom123',
-        'charset' => 'utf8',
-        ],
-]);
-
-$app->register(new Silex\Provider\FormServiceProvider());
+if (!$app instanceof Application) {
+    throw new RuntimeException('Failed to initialize application.');
+}
 
 $app->get('/', function () use ($app) {
 
